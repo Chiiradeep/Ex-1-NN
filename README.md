@@ -1,7 +1,6 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME : Chiiradeep R</H3>
+<H3>ENTER YOUR REGISTER NO. : 212224240028</H3>
 <H3>EX. NO.1</H3>
-<H3>DATE</H3>
 <H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
 
 ## AIM:
@@ -37,14 +36,147 @@ STEP 5:Normalizing the data<BR>
 STEP 6:Splitting the data into test and train<BR>
 
 ##  PROGRAM:
-TYPE YOUR CODE HERE
+
+### Import libraries
+```PYTHON
+import pandas as pd
+import numpy as np
+import seaborn as sns   # for outlier detection
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
+from sklearn.model_selection import train_test_split
+```
+
+### Read the dataset directly
+```PYTHON
+df = pd.read_csv('Churn_Modelling.csv')
+print("First 5 rows of the dataset:")
+df.head()
+```
+
+### Find missing values
+```PYTHON
+print(df.isnull().sum())
+```
+
+### Identify categorical columns
+```PYTHON
+categorical_cols = df.select_dtypes(include=['object']).columns
+print("\nCategorical columns:", categorical_cols.tolist())
+```
+
+### Apply Label Encoding to categorical columns
+```PYTHON
+label_encoder = LabelEncoder()
+for col in categorical_cols:
+    df[col] = label_encoder.fit_transform(df[col])
+
+print("\nData after encoding:")
+print(df.head(5))
+```
+### Handling missing values only for numeric columns
+```PYTHON
+for col in df.select_dtypes(include=['float64', 'int64']).columns:
+    df[col].fillna(df[col].mean().round(1), inplace=True)
+
+df.isnull().sum()
+```
+
+### Detect Outliers (example using seaborn)
+```PYTHON
+print("\nDetecting outliers (example: CreditScore column):")
+sns.boxplot(x=df['CreditScore'])
+```
+
+### Example statistics for 'CreditScore'
+```PYTHON
+print("\nStatistics for 'CreditScore':")
+df['CreditScore'].describe()
+```
+
+### Splitting features (X) and labels (y)
+```PYTHON
+X = df.drop('Exited', axis=1).values  # Features (drop target column)
+y = df['Exited'].values   
+
+print("\nFeature Matrix (X):")
+print(X)
+print("\nLabel Vector (y):")
+print(y)
+```
+### Normalizing the features
+```PYTHON
+scaler = MinMaxScaler()
+X_normalized = scaler.fit_transform(X)
+```
+
+### First 5 rows after normalization
+```PYTHON
+pd.DataFrame(X_normalized, columns=df.columns[:-1]).head()
+```
+
+### Splitting into Training and Testing Sets
+```PYTHON
+X_train, X_test, y_train, y_test = train_test_split(
+    X_normalized, y, test_size=0.2, random_state=42
+)
+
+print("\nShapes of Training and Testing sets:")
+print("X_train:", X_train.shape)
+print("X_test:", X_test.shape)
+print("y_train:", y_train.shape)
+print("y_test:", y_test.shape)
+```
 
 
 ## OUTPUT:
-SHOW YOUR OUTPUT HERE
+
+<img width="1311" height="236" alt="image" src="https://github.com/user-attachments/assets/97506e0c-e728-4f95-9a14-4c8bfdbac362" />
+
+
+
+
+<img width="313" height="322" alt="image" src="https://github.com/user-attachments/assets/951e998f-a624-4bc8-9219-0e90261f98f8" />
+
+
+
+
+<img width="494" height="62" alt="image" src="https://github.com/user-attachments/assets/9c7d2685-6df8-4b4b-aabc-0f0f56fd1024" />
+
+
+
+
+<img width="1303" height="392" alt="image" src="https://github.com/user-attachments/assets/da00135d-f6dd-42f0-bc16-a615580869ac" />
+
+
+
+
+<img width="247" height="311" alt="image" src="https://github.com/user-attachments/assets/63c5ed0e-5ac2-46a7-9c19-2a3a8ffc2674" />
+
+
+<img width="641" height="572" alt="image" src="https://github.com/user-attachments/assets/44fadcda-3ade-467a-9540-9c3f99b92d4b" />
+
+
+
+
+<img width="365" height="254" alt="image" src="https://github.com/user-attachments/assets/98a34112-d246-493a-af3c-36d83e638ff5" />
+
+
+
+
+<img width="553" height="365" alt="image" src="https://github.com/user-attachments/assets/5e495de1-8053-4e09-bd15-434bb1d6ca44" />
+
+
+
+
+<img width="1322" height="200" alt="image" src="https://github.com/user-attachments/assets/d847e188-766a-4a32-bf1d-d196f38587a8" />
+
+
+
+
+<img width="408" height="173" alt="image" src="https://github.com/user-attachments/assets/5c38ea31-5ff6-4c17-aa9c-4b3f84202d13" />
+
+
 
 
 ## RESULT:
 Thus, Implementation of Data Preprocessing is done in python  using a data set downloaded from Kaggle.
-
-
